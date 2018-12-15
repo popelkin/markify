@@ -1,0 +1,10 @@
+{
+    "require": {
+        "imangazaliev/didom": "^1.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Classes\\": "classes"
+        }
+    }
+}
