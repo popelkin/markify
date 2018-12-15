@@ -21,4 +21,4 @@ php index.php abc
 
 ## Result
 
-<img src="https://github.com/popelkin/sendpulse/blob/master/parser.jpg">
+<img src="https://github.com/popelkin/markify/blob/master/parser.jpg">
