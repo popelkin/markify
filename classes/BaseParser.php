@@ -8,7 +8,7 @@ class BaseParser
 {
     protected $url_form = 'https://search.ipaustralia.gov.au/trademarks/search/advanced';
     protected $url_search = 'https://search.ipaustralia.gov.au/trademarks/search/doSearch';
-    protected $params_post = ['_csrf' => '', 'wv[0]' => '', 'wt[0]' => 'PART', 'weOp[0]' => 'AND', 'wv[1]' => '', 'wt[1]' => 'PART', 'wrOp' => 'AND', 'wv[2]' => '', 'wt[2]' => 'PART', 'weOp[1]' => 'AND', 'wv[3]' => '', 'wt[3]' => 'PART', 'iv[0]' => '', 'it[0]' => 'PART', 'ieOp[0]' => 'AND', 'iv[1]' => '', 'it[1]' => 'PART', 'irOp' => 'AND', 'iv[2]' => '', 'it[2]' => 'PART', 'ieOp[1]' => 'AND', 'iv[3]' => '', 'it[3]' => 'PART', 'wp' => '', '_sw' => 'on', 'classList' => '', 'ct' => 'A', 'status' => '', 'dateType' => 'LODGEMENT_DATE', 'fromDate' => '', 'toDate' => '', 'ia' => '', 'gsd' => '', 'endo' => '', 'name[0]' => '', 'attorney' => '', 'oAcn' => '', 'idList' => '', 'ir' => '', 'publicationFromDate' => '', 'publicationToDate' => ''];
+    protected $params_post = [];
     private $word = '';
 
     /**
