@@ -118,7 +118,7 @@ class BaseParser
                 ];
             }
             // sleeping to prevent ban
-            usleep(1000);
+            usleep(mt_rand(500, 1500));
         }
         return $data;
     }
