@@ -52,10 +52,7 @@ class BaseParser
         }
 
         // getting redirect to results page
-        preg_match('/^Location:\s*(.+)/mi', $result['content'], $matches);
-        if (!$url = trim($matches[1])) {
-            $this->error('Result redirect location not found');
-        }
+        $url = $this->getRedirectLocation($result['content']);
 
         // getting result page information
         list($total, $last) = $this->getResultPageInfo($url);
@@ -63,6 +60,26 @@ class BaseParser
         // starting processing data
         $this->log("Starting traversing pagination...");
         $this->log("Total pages found: " . (!$last ? 1 : $last));
+
+        // fetching data
+        $data = $this->traverseResult($url, $last);
+
+        // information
+        $this->log('Result page info elements count: ' . $total);
+        $this->log('Result data array count: ' . count($data));
+        $this->log('--- done ---');
+
+        // format pretty output
+        echo stripslashes(json_encode($data, JSON_PRETTY_PRINT));
+    }
+
+    /**
+     * @param $url
+     * @param $last
+     * @return array
+     */
+    protected function traverseResult($url, $last)
+    {
         $data = [];
         for ($i = 0; $i <= $last; $i++) {
             $page = $i + 1;
@@ -80,13 +97,13 @@ class BaseParser
                     $logo = (string)$logo[0]->attr('src');
                 }
                 if ($name = $tb->find('td.words')) {
-                    $name = (string)$name[0]->innerHtml();
+                    $name = $this->f((string)$name[0]->innerHtml());
                 }
                 if ($classes = $tb->find('td.classes')) {
-                    $classes = (string)$classes[0]->innerHtml();
+                    $classes = $this->f((string)$classes[0]->innerHtml());
                 }
                 if ($status = $tb->find('td.status')) {
-                    $status = trim(strip_tags((string)$status[0]->innerHtml()));
+                    $status = $this->f((string)$status[0]->innerHtml());
                 }
                 if ($link = $tb->find('td.number a')) {
                     $link = 'https://search.ipaustralia.gov.au' . explode('?', (string)$link[0]->attr('href'))[0];
@@ -103,13 +120,35 @@ class BaseParser
             // sleeping to prevent ban
             usleep(1000);
         }
+        return $data;
+    }
 
-        // information
-        $this->log('Result page info elements count: ' . $total);
-        $this->log('Result data array count: ' . count($data));
-        $this->log('--- done ---');
+    /**
+     * Format data output
+     * 
+     * @param $str
+     * @return mixed|string
+     */
+    private function f($str)
+    {
+        $str = strip_tags($str);
+        $str = str_replace(["\n", "●"], [" ", ""], $str);
+        $str = trim($str);
+        
+        return $str;
+    }
 
-        echo json_encode($data, JSON_PRETTY_PRINT);
+    /**
+     * @param $content
+     * @return string
+     */
+    protected function getRedirectLocation($content)
+    {
+        preg_match('/^Location:\s*(.+)/mi', $content, $matches);
+        if (!$url = trim($matches[1])) {
+            $this->error('Result redirect location not found');
+        }
+        return $url;
     }
 
     /**
@@ -216,5 +255,5 @@ class BaseParser
         echo $error . "\n";
         exit();
     }
-    
+
 }
