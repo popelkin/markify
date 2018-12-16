@@ -1,6 +1,9 @@
 <?php
 #!/usr/bin/php
 
+set_time_limit(0);
+//ini_set('memory_limit', '2048M');
+
 require "vendor/autoload.php";
 
 use Classes\BaseParser;
